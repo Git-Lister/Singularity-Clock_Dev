@@ -9,6 +9,7 @@ venv/
 *.egg-info/
 dist/
 build/
+data/
 
 # Frontend
 node_modules/
