@@ -7,27 +7,27 @@ from sqlalchemy import pool
 
 from alembic import context
 
-# Add the parent directory (backend) to sys.path so we can import app modules
+# Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-# Import your SQLAlchemy Base and settings
+# Import Base and settings
 from app.models.db_models import Base
 from app.config import get_settings
 
-# this is the Alembic Config object, which provides access to the values within the .ini file
+# this is the Alembic Config object
 config = context.config
 
 # Interpret the config file for Python logging.
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# Set target metadata for autogenerate support
+# Set target metadata
 target_metadata = Base.metadata
 
-# Get database URL from our settings (which reads from .env)
+# Get database URL from settings (this is a sync URL without +asyncpg)
 settings = get_settings()
-# Override the sqlalchemy.url in the alembic.ini with the one from settings
-config.set_main_option("sqlalchemy.url", settings.database_url)
+sync_database_url = settings.database_url  # e.g. postgresql://user:pass@localhost/db
+config.set_main_option("sqlalchemy.url", sync_database_url)
 
 
 def run_migrations_offline() -> None:
@@ -46,7 +46,7 @@ def run_migrations_offline() -> None:
 
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode."""
-    # Use the configuration from alembic.ini (with URL already overridden)
+    # Create a synchronous engine from the config
     connectable = engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
