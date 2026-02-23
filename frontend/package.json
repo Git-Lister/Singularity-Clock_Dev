@@ -1,0 +1,12 @@
+{
+  "name": "singularity-clock-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for AI Singularity Clock",
+  "scripts": {
+    "start": "npx http-server public"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
