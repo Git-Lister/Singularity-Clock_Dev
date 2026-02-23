@@ -12,7 +12,7 @@ class Organization(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, unique=True, nullable=False)
     country = Column(ARRAY(String))
-    created_at = Column(DateTime, server_default=func.now())  # Use DateTime for timestamps
+    created_at = Column(DateTime, server_default=func.now())
 
     models = relationship("Model", back_populates="organization")
 
@@ -33,7 +33,7 @@ class Model(Base):
     citation_count = Column(Integer)
     notability_criteria = Column(ARRAY(String))
     link = Column(String)
-    metadata = Column(JSON)
+    extra_data = Column(JSON)  # renamed from metadata
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, onupdate=func.now())
 
@@ -62,7 +62,7 @@ class ModelBenchmarkScore(Base):
     score = Column(Float, nullable=False)
     score_date = Column(Date)
     is_state_of_the_art = Column(Boolean, default=False)
-    metadata = Column(JSON)
+    extra_data = Column(JSON)  # renamed from metadata
     created_at = Column(DateTime, server_default=func.now())
 
     model = relationship("Model", back_populates="scores")
@@ -78,5 +78,5 @@ class CompositeHistory(Base):
     capability_component = Column(Float)
     papers_component = Column(Float)
     composite_value = Column(Float)
-    metadata = Column(JSON)
+    extra_data = Column(JSON)  # renamed from metadata
     created_at = Column(DateTime, server_default=func.now())
